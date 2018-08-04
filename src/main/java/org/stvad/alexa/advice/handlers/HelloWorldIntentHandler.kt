@@ -11,16 +11,15 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.helloworldservlet.handlers
+package org.stvad.alexa.advice.handlers
 
-import com.amazon.ask.helloworldservlet.handle
-import com.amazon.ask.model.LaunchRequest
+import org.stvad.ask.handle
 
-val launchRequestHandler = handle(LaunchRequest::class) {
-    val speechText = "Welcome to the Alexa Skills Kit, you can't say hello"
-    it.responseBuilder
+
+val helloWorldHandler = handle("HelloWorldIntent") { input ->
+    val speechText = "Hello world wheeee"
+    input.responseBuilder
             .withSpeech(speechText)
             .withSimpleCard("HelloWorld", speechText)
-            .withReprompt(speechText)
             .build()
 }

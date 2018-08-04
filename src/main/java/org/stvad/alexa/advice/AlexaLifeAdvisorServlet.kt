@@ -11,23 +11,24 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.helloworldservlet
+package org.stvad.alexa.advice
 
 import com.amazon.ask.Skills
-import com.amazon.ask.helloworldservlet.handlers.CancelandStopIntentHandler
-import com.amazon.ask.helloworldservlet.handlers.HelpIntentHandler
-import com.amazon.ask.helloworldservlet.handlers.SessionEndedRequestHandler
-import com.amazon.ask.helloworldservlet.handlers.helloWorldHandler
-import com.amazon.ask.helloworldservlet.handlers.launchRequestHandler
+import org.stvad.alexa.advice.handlers.CancelandStopIntentHandler
+import org.stvad.alexa.advice.handlers.HelpIntentHandler
+import org.stvad.alexa.advice.handlers.SessionEndedRequestHandler
+import org.stvad.alexa.advice.handlers.helloWorldHandler
+import org.stvad.alexa.advice.handlers.launchRequestHandler
 import com.amazon.ask.servlet.SkillServlet
+import org.stvad.ask.handle
 
 // Add your skill id below
 //.withSkillId("")
-class HelloWorldSkillServlet : SkillServlet(
+class AlexaLifeAdvisorServlet : SkillServlet(
         Skills.standard()
                 .addRequestHandlers(
                         CancelandStopIntentHandler(),
-                        handle("BuyApartmentIntent") {it.responseBuilder.withSpeech("").build()},
+                        handle("HelpApartmentSearchIntent") { it.responseBuilder.withSpeech("Wheeeeee").build() },
                         helloWorldHandler,
                         HelpIntentHandler(),
                         launchRequestHandler,

@@ -3,14 +3,14 @@
 	      http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<display-name>helloworldservlet</display-name>
+	<display-name>alexalifeadvice</display-name>
 
     <servlet>
-        <servlet-name>helloworldservlet</servlet-name>
-        <servlet-class>com.amazon.ask.helloworldservlet.HelloWorldSkillServlet</servlet-class>
+        <servlet-name>alexalifeadvice</servlet-name>
+        <servlet-class>org.stvad.alexa.advice.AlexaLifeAdvisorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>helloworldservlet</servlet-name>
+        <servlet-name>alexalifeadvice</servlet-name>
         <url-pattern>/main</url-pattern>
     </servlet-mapping>
 

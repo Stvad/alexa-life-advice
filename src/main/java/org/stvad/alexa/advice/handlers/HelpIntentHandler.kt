@@ -11,30 +11,28 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.helloworldservlet.handlers;
+package org.stvad.alexa.advice.handlers
 
-import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.Response;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput
+import com.amazon.ask.dispatcher.request.handler.RequestHandler
+import com.amazon.ask.model.Response
 
-import java.util.Optional;
+import java.util.Optional
 
-import static com.amazon.ask.request.Predicates.intentName;
+import com.amazon.ask.request.Predicates.intentName
 
-public class HelpIntentHandler implements RequestHandler {
+class HelpIntentHandler : RequestHandler {
 
-    @Override
-    public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AMAZON.HelpIntent"));
+    override fun canHandle(input: HandlerInput): Boolean {
+        return input.matches(intentName("AMAZON.HelpIntent"))
     }
 
-    @Override
-    public Optional<Response> handle(HandlerInput input) {
-        String speechText = "You can say hello to me!";
-        return input.getResponseBuilder()
+    override fun handle(input: HandlerInput): Optional<Response> {
+        val speechText = "You can say hello to me!"
+        return input.responseBuilder
                 .withSpeech(speechText)
                 .withSimpleCard("HelloWorld", speechText)
                 .withReprompt(speechText)
-                .build();
+                .build()
     }
 }

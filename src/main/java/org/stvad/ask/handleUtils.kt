@@ -1,4 +1,4 @@
-package com.amazon.ask.helloworldservlet
+package org.stvad.ask
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.dispatcher.request.handler.RequestHandler

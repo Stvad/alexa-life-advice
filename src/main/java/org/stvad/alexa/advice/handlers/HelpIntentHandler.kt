@@ -1,37 +1,19 @@
-/*
-     Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-     Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file
-     except in compliance with the License. A copy of the License is located at
-
-         http://aws.amazon.com/apache2.0/
-
-     or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
-     the specific language governing permissions and limitations under the License.
-*/
-
 package org.stvad.alexa.advice.handlers
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
-import com.amazon.ask.dispatcher.request.handler.RequestHandler
 import com.amazon.ask.model.Response
-
+import org.stvad.alexa.advice.util.Intents
+import org.stvad.alexa.advice.util.SkillName
+import org.stvad.ask.IntentRequestHandler
 import java.util.Optional
 
-import com.amazon.ask.request.Predicates.intentName
+class HelpIntentHandler : IntentRequestHandler(Intents.Help.alexaName) {
 
-class HelpIntentHandler : RequestHandler {
-
-    override fun canHandle(input: HandlerInput): Boolean {
-        return input.matches(intentName("AMAZON.HelpIntent"))
-    }
-
-    override fun handle(input: HandlerInput): Optional<Response> {
+    override fun handleSafely(input: HandlerInput): Optional<Response> {
         val speechText = "You can say hello to me!"
         return input.responseBuilder
                 .withSpeech(speechText)
-                .withSimpleCard("HelloWorld", speechText)
+                .withSimpleCard(SkillName, speechText)
                 .withReprompt(speechText)
                 .build()
     }

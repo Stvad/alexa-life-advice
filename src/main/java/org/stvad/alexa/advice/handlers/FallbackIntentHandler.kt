@@ -5,6 +5,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.dispatcher.request.handler.RequestHandler
 import com.amazon.ask.model.Response
 import com.amazon.ask.request.Predicates.intentName
+import org.stvad.alexa.advice.util.SkillName
 import java.util.Optional
 
 // 2018-July-09: AMAZON.FallackIntent is only currently available in en-US locale.
@@ -20,7 +21,7 @@ class FallbackIntentHandler : RequestHandler {
         val speechText = "Sorry, I don't know that. You can try saying help!"
         return input.responseBuilder
                 .withSpeech(speechText)
-                .withSimpleCard("HelloWorld", speechText)
+                .withSimpleCard(SkillName, speechText)
                 .withReprompt(speechText)
                 .build()
     }

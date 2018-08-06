@@ -1,36 +1,131 @@
 {
-  "languageModel": {
-    "intents": [
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "life advice",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "HelpApartmentSearchIntent",
+          "slots": [],
+          "samples": [
+            "I need help with selecting the home to rent",
+            "i need help with finding the apartment",
+            "apartment search strategy",
+            "rent an apartment",
+            "find a house",
+            "choose house",
+            "rent a home",
+            "find an apartment"
+          ]
+        },
+        {
+          "name": "ApartmentSearchInformationIntent",
+          "slots": [
+            {
+              "name": "total_duration",
+              "type": "AMAZON.DURATION",
+              "samples": [
+                "Not more than {total_duration}",
+                "{total_duration}",
+                "Around {total_duration}"
+              ]
+            },
+            {
+              "name": "spent_duration",
+              "type": "AMAZON.DURATION",
+              "samples": [
+                "It's been {spent_duration} since I've started looking",
+                "{spent_duration}",
+                "Around {spent_duration}",
+                "A few days",
+                "I've just started"
+              ]
+            }
+          ],
+          "samples": [
+            "It's been {spent_duration} since I've started looking",
+            "I've aleardy been looking for {spent_duration}",
+            "I plan to spend around {total_duration} searching",
+            "that would be {total_duration} and {spent_duration} correspondingly",
+            "I plan to spend {total_duration} looking and I've been doing so for {spent_duration} already",
+            "i plan to spend around {total_duration} searching and it's been {spent_duration} since I've started",
+            "I plan to spend around {total_duration} searching. And I've been doing it for {spent_duration} already"
+          ]
+        }
+      ],
+      "types": []
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "ApartmentSearchInformationIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "total_duration",
+              "type": "AMAZON.DURATION",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.499352633695.404967652974"
+              }
+            },
+            {
+              "name": "spent_duration",
+              "type": "AMAZON.DURATION",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.978020025413.699228081627"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
       {
-        "name": "AMAZON.CancelIntent",
-        "samples": []
+        "id": "Elicit.Slot.499352633695.404967652974",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "How much time do you have to find a place?"
+          },
+          {
+            "type": "PlainText",
+            "value": "How long do you plan to spend searching for the apartment?"
+          }
+        ]
       },
       {
-        "name": "AMAZON.HelpIntent",
-        "samples": []
-      },
-      {
-        "name": "AMAZON.StopIntent",
-        "samples": []
-      },
-      {
-        "name": "HelloWorldIntent",
-        "samples": [
-          "say hello",
-          "say hello world",
-          "hello",
-          "say hi",
-          "say hi world",
-          "hi",
-          "how are you"
-        ],
-        "slots": []
-      },
-      {
-        "name": "AMAZON.FallbackIntent",
-        "samples": []
+        "id": "Elicit.Slot.978020025413.699228081627",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "How long has it been since you've started the search?"
+          },
+          {
+            "type": "PlainText",
+            "value": "How much time did you already spent searching?"
+          }
+        ]
       }
-    ],
-    "invocationName": "hello world"
+    ]
   }
 }

@@ -1,23 +1,14 @@
-/*
-     Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-     Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file
-     except in compliance with the License. A copy of the License is located at
-
-         http://aws.amazon.com/apache2.0/
-
-     or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
-     the specific language governing permissions and limitations under the License.
-*/
-
 package org.stvad.alexa.advice.handlers
 
 import com.amazon.ask.model.LaunchRequest
 import org.stvad.ask.handle
 
+//todo distinguish first launch after enabling/ not and giving short/long version
+
 val launchRequestHandler = handle(LaunchRequest::class) {
-    val speechText = "Welcome to the Alexa Skills Kit, you can't say hello"
+    val speechText = """Welcome to the Alexa Life Advice Skill. This skill is designed to help you with everyday problems,
+        |by using insights from the field of Computer Science.
+        |It's inspired by the ideas in the book 'Algorithms to live by', written by Brian Christian and Tom Griffiths.""".trimMargin()
     it.responseBuilder
             .withSpeech(speechText)
             .withSimpleCard("HelloWorld", speechText)

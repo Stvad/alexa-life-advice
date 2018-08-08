@@ -10,7 +10,8 @@ enum class Intents(val alexaName: String) { //todo consider autogenerating this 
 
     Cancel("AMAZON.CancelIntent"),
     Stop("AMAZON.StopIntent"),
-    Help("AMAZON.HelpIntent")
+    Help("AMAZON.HelpIntent"),
+    Fallback("AMAZON.FallbackIntent")
 
 }
 
@@ -22,3 +23,5 @@ enum class Slots(val alexaName: String, val type: String) {
         return alexaName
     }
 }
+
+val supportedAdviceAreas = listOf("Apartment search")

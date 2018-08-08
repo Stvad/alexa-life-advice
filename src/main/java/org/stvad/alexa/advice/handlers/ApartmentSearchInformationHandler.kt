@@ -5,8 +5,6 @@ import com.amazon.ask.model.Intent
 import com.amazon.ask.model.Response
 import com.github.debop.kodatimes.dayDuration
 import com.github.debop.kodatimes.days
-import com.github.debop.kodatimes.secondDuration
-import com.github.debop.kodatimes.seconds
 import org.joda.time.DateTime.now
 import org.joda.time.Duration
 import org.joda.time.Period.parse
@@ -15,6 +13,7 @@ import org.stvad.alexa.advice.util.Intents.ApartmentSearchInformation
 import org.stvad.alexa.advice.util.Slots
 import org.stvad.alexa.advice.util.Slots.SpentDuration
 import org.stvad.alexa.advice.util.Slots.TotalDuration
+import org.stvad.algorithm.optimalThreshold
 import org.stvad.ask.IntentRequestHandler
 import java.util.Optional
 
@@ -55,9 +54,6 @@ class ApartmentSearchInformationHandler : IntentRequestHandler(ApartmentSearchIn
         return if (spentTime > threshold) shouldLeapResponse else
             shouldLookResponse.format(daysLeft(threshold, spentTime))
     }
-
-    private fun optimalThreshold(totalTime: Duration) =
-            (totalTime.seconds() * 0.37).toLong().secondDuration()
 
     private fun Intent.durationFromSlot(slot: Slots): Duration = parse(requireSlot(slot).value).toDurationFrom(now())
 

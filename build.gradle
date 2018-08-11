@@ -1,11 +1,31 @@
+import com.amazonaws.services.lambda.model.Runtime
+import jp.classmethod.aws.gradle.lambda.AWSLambdaMigrateFunctionTask
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://public-maven.classmethod.info/release' }
+    }
+    dependencies {
+        classpath "jp.classmethod.aws:gradle-aws-plugin:0.18.1"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.60"
+}
+
 apply plugin: 'java'
+apply plugin: 'aws-lambda'
 apply plugin: 'maven'
 apply plugin: 'war'
 
 group = 'org.stvad'
 version = '1.0'
 
-description = """Alexa Life Advisor"""
+ext.functionName = "AlexaLifeAdviser"
+
+description = """Alexa Life Adviser"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -17,12 +37,48 @@ repositories {
     jcenter()
 }
 
-
 dependencies {
     compile group: 'com.amazon.alexa', name: 'ask-sdk', version: '2.3.5'
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.2.60'
     compile "com.github.debop:koda-time:1.2.1"
 
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.2.60'
-    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/java'
+    main.java.srcDirs += 'src/main/java'
+}
+
+jar {
+    from compileJava
+    from compileKotlin
+    from processResources
+    into('lib') {
+        from configurations.compile
+    }
+}
+
+aws {
+    profileName "default"
+    region "eu-west-1"
+
+}
+
+task buildLambdaArchive(type: Zip) {
+    from compileJava
+    from compileKotlin
+    from processResources
+    into('lib') {
+        from configurations.compileClasspath
+    }
+}
+
+task migrateFunction(type: AWSLambdaMigrateFunctionTask, dependsOn: buildLambdaArchive) {
+    functionName = project.functionName
+    role = "arn:aws:iam::${aws.accountId}:role/service-role/alexa-life-adviser-lambda"
+    runtime = Runtime.Java8
+    zipFile = buildLambdaArchive.archivePath
+    handler = "org.stvad.alexa.advice.AlexaLifeAdviserStreamHandler"
 }

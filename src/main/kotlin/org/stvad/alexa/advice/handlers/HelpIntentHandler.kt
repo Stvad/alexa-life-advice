@@ -5,8 +5,8 @@ import com.amazon.ask.model.Response
 import org.stvad.alexa.advice.util.Intents
 import org.stvad.alexa.advice.util.SkillName
 import org.stvad.alexa.advice.util.supportedAdviceAreas
-import org.stvad.kask.IntentRequestHandler
-import java.util.*
+import org.stvad.kask.request.IntentRequestHandler
+import java.util.Optional
 
 class HelpIntentHandler : IntentRequestHandler(Intents.Help.alexaName) {
 

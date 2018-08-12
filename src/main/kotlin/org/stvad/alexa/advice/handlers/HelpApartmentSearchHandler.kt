@@ -4,8 +4,8 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.model.Response
 import org.stvad.alexa.advice.util.ApartmentSearchTitle
 import org.stvad.alexa.advice.util.Intents
-import org.stvad.kask.IntentRequestHandler
-import java.util.*
+import org.stvad.kask.request.IntentRequestHandler
+import java.util.Optional
 
 class HelpApartmentSearchHandler : IntentRequestHandler(Intents.HelpApartmentSearch.alexaName) {
     companion object {

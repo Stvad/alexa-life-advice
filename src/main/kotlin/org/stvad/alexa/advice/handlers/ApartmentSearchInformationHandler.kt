@@ -14,8 +14,8 @@ import org.stvad.alexa.advice.util.Slots
 import org.stvad.alexa.advice.util.Slots.SpentDuration
 import org.stvad.alexa.advice.util.Slots.TotalDuration
 import org.stvad.algorithm.optimalThreshold
-import org.stvad.kask.IntentRequestHandler
-import java.util.*
+import org.stvad.kask.request.IntentRequestHandler
+import java.util.Optional
 
 class ApartmentSearchInformationHandler : IntentRequestHandler(ApartmentSearchInformation.alexaName) {
     companion object {

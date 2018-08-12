@@ -6,7 +6,7 @@ import org.stvad.alexa.advice.util.Intents.Cancel
 import org.stvad.alexa.advice.util.Intents.Fallback
 import org.stvad.alexa.advice.util.Intents.Stop
 import org.stvad.alexa.advice.util.SkillName
-import org.stvad.ask.handle
+import org.stvad.kask.handle
 
 val welcomeReprompt = """What area of your life do you need an advice about?
     | Currently I can only help you with the apartment search, but I'm constantly learning new things.""".trimMargin()

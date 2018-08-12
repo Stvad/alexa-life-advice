@@ -1,24 +1,17 @@
 import com.amazonaws.services.lambda.model.Runtime
 import jp.classmethod.aws.gradle.lambda.AWSLambdaMigrateFunctionTask
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'http://public-maven.classmethod.info/release' }
-    }
-    dependencies {
-        classpath "jp.classmethod.aws:gradle-aws-plugin:0.18.1"
-    }
-}
-
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.60"
-}
+    id 'base'
 
-apply plugin: 'java'
-apply plugin: 'aws-lambda'
-apply plugin: 'maven'
-apply plugin: 'war'
+    id 'java'
+    id 'maven'
+    id 'war'
+
+    id 'org.jetbrains.kotlin.jvm' version '1.2.60'
+
+    id 'jp.classmethod.aws.lambda' version '0.30'
+}
 
 group = 'org.stvad'
 version = '1.0'
@@ -46,24 +39,13 @@ dependencies {
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 }
 
-sourceSets {
-    main.kotlin.srcDirs += 'src/main/java'
-    main.java.srcDirs += 'src/main/java'
-}
-
-jar {
-    from compileJava
-    from compileKotlin
-    from processResources
-    into('lib') {
-        from configurations.compile
-    }
+dependencies {
+    compile group: 'org.stvad', name: 'kask', version: "0.1.0"
 }
 
 aws {
     profileName "default"
     region "eu-west-1"
-
 }
 
 task buildLambdaArchive(type: Zip) {
@@ -75,7 +57,7 @@ task buildLambdaArchive(type: Zip) {
     }
 }
 
-task migrateFunction(type: AWSLambdaMigrateFunctionTask, dependsOn: buildLambdaArchive) {
+task deployLambda(type: AWSLambdaMigrateFunctionTask, dependsOn: buildLambdaArchive) {
     functionName = project.functionName
     role = "arn:aws:iam::${aws.accountId}:role/service-role/alexa-life-adviser-lambda"
     runtime = Runtime.Java8

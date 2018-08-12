@@ -1,3 +1,3 @@
-rootProject.name = "alexa_life_advisor"
+rootProject.name = "alexa_life_adviser"
 
 includeBuild("../kask")

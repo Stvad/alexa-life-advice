@@ -14,10 +14,10 @@ import org.stvad.alexa.advice.util.Slots
 import org.stvad.alexa.advice.util.Slots.SpentDuration
 import org.stvad.alexa.advice.util.Slots.TotalDuration
 import org.stvad.algorithm.optimalThreshold
-import org.stvad.kask.request.IntentRequestHandler
+import org.stvad.kask.request.BasicIntentRequestHandler
 import java.util.Optional
 
-class ApartmentSearchInformationHandler : IntentRequestHandler(ApartmentSearchInformation.alexaName) {
+class ApartmentSearchInformationHandler : BasicIntentRequestHandler(ApartmentSearchInformation.alexaName) {
     companion object {
         val minimalTotalSearchTime = 7.dayDuration()
 

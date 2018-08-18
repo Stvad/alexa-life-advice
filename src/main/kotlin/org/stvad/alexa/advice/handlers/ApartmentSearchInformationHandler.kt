@@ -8,16 +8,17 @@ import com.github.debop.kodatimes.days
 import org.joda.time.DateTime.now
 import org.joda.time.Duration
 import org.joda.time.Period.parse
+import org.stvad.alexa.advice.model.ApartmentSearchInformationIntent
 import org.stvad.alexa.advice.util.ApartmentSearchTitle
-import org.stvad.alexa.advice.util.Intents.ApartmentSearchInformation
 import org.stvad.alexa.advice.util.Slots
 import org.stvad.alexa.advice.util.Slots.SpentDuration
 import org.stvad.alexa.advice.util.Slots.TotalDuration
 import org.stvad.algorithm.optimalThreshold
-import org.stvad.kask.request.BasicIntentRequestHandler
+import org.stvad.kask.request.IntentRequestHandler
+import org.stvad.kask.requireSlot
 import java.util.Optional
 
-class ApartmentSearchInformationHandler : BasicIntentRequestHandler(ApartmentSearchInformation.alexaName) {
+class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchInformationIntent>(ApartmentSearchInformationIntent) {
     companion object {
         val minimalTotalSearchTime = 7.dayDuration()
 
@@ -32,7 +33,9 @@ class ApartmentSearchInformationHandler : BasicIntentRequestHandler(ApartmentSea
         """.trimMargin()
     }
 
-    override fun handleSafely(input: HandlerInput): Optional<Response> {
+    override fun handleSafely(input: HandlerInput, intent: ApartmentSearchInformationIntent) = handleSafelyOld(input)
+
+    fun handleSafelyOld(input: HandlerInput): Optional<Response> {
         if (!input.dialogState.isCompleted) return input.delegateDialog() //todo
 
         val totalTime = input.intent.durationFromSlot(TotalDuration)

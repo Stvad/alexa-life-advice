@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.amazonaws.services.lambda.model.Runtime
 import jp.classmethod.aws.gradle.lambda.AWSLambdaMigrateFunctionTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.stvad.kask.gradle.Kask
 
 plugins {
     base
-
     java
     maven
     war
@@ -12,6 +13,7 @@ plugins {
     kotlin("jvm") version "1.2.60"
 
     id("jp.classmethod.aws.lambda") version "0.30"
+    id("org.stvad.kask") version "0.1.0"
 }
 
 group = "org.stvad"
@@ -24,26 +26,34 @@ description = """Alexa Life Adviser"""
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
+
+val generatedOutput = layout.buildDirectory.dir("generated")
+        .map { it.dir("source") }
+        .map { it.dir("kask") }
+        .map { it.dir("main") }
+
+tasks.withType<Kask> {
+    packageName = "org.stvad.alexa.advice.model"
+    modelPath.set(layout.projectDirectory.dir("models").file("en-US.json"))
+    outputDirectory.set(generatedOutput)
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+
+    val kask: Kask by tasks
+    dependsOn(kask)
 }
 
-repositories {
-    jcenter()
+java.sourceSets["main"].withConvention(KotlinSourceSet::class) {
+    kotlin.srcDir(generatedOutput)
 }
 
-dependencies {
-    compile("com.amazon.alexa", "ask-sdk", "2.3.5")
-    compile("org.jetbrains.kotlin", "kotlin-stdlib", "1.2.60")
-    compile("com.github.debop:koda-time:1.2.1")
-
-    testCompile("org.jetbrains.kotlin", "kotlin-test", "1.2.60")
-    compile("javax.servlet", "javax.servlet-api", "3.0.1")
-}
-
-dependencies {
-    compile("org.stvad", "kask", "0.1.0")
-}
+//
+//java.sourceSets {
+//    //todo put in plugin init?
+////    getByName("main").output.dir(mapOf("builtBy" to kask), generatedOutput)
+//}
 
 aws {
     profileName = "default"
@@ -72,4 +82,20 @@ tasks.create<AWSLambdaMigrateFunctionTask>("deployLambda") {
     runtime = Runtime.Java8
     zipFile = buildLambdaArchive.archivePath
     handler = "org.stvad.alexa.advice.AlexaLifeAdviserStreamHandler"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile("com.amazon.alexa", "ask-sdk", "2.3.5")
+    compile("org.jetbrains.kotlin", "kotlin-stdlib", "1.2.60")
+    compile("com.github.debop:koda-time:1.2.1")
+
+    compile("javax.servlet", "javax.servlet-api", "3.0.1")
+}
+
+dependencies {
+    implementation("org.stvad", "kask", "0.1.0")
 }

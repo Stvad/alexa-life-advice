@@ -36,6 +36,11 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform { }
+}
+
+
 aws {
     profileName = "default"
     region = "eu-west-1"
@@ -75,6 +80,8 @@ dependencies {
     compile("com.github.debop:koda-time:1.2.1")
 
     compile("javax.servlet", "javax.servlet-api", "3.0.1")
+
+    testCompile("io.kotlintest:kotlintest-runner-junit5:3.1.9")
 }
 
 dependencies {

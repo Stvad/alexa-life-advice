@@ -1,21 +1,15 @@
 package org.stvad.alexa.advice.handlers
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
-import com.amazon.ask.model.Intent
 import com.amazon.ask.model.Response
 import com.github.debop.kodatimes.dayDuration
 import com.github.debop.kodatimes.days
-import org.joda.time.DateTime.now
 import org.joda.time.Duration
-import org.joda.time.Period.parse
 import org.stvad.alexa.advice.model.ApartmentSearchInformationIntent
 import org.stvad.alexa.advice.util.ApartmentSearchTitle
-import org.stvad.alexa.advice.util.Slots
-import org.stvad.alexa.advice.util.Slots.SpentDuration
-import org.stvad.alexa.advice.util.Slots.TotalDuration
 import org.stvad.algorithm.optimalThreshold
+import org.stvad.kask.duration
 import org.stvad.kask.request.IntentRequestHandler
-import org.stvad.kask.requireSlot
 import java.util.Optional
 
 class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchInformationIntent>(ApartmentSearchInformationIntent) {
@@ -33,15 +27,16 @@ class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchIn
         """.trimMargin()
     }
 
-    override fun handleSafely(input: HandlerInput, intent: ApartmentSearchInformationIntent) = handleSafelyOld(input)
-
-    fun handleSafelyOld(input: HandlerInput): Optional<Response> {
+    override fun handleSafely(input: HandlerInput, intent: ApartmentSearchInformationIntent): Optional<Response> {
         if (!input.dialogState.isCompleted) return input.delegateDialog() //todo
 
-        val totalTime = input.intent.durationFromSlot(TotalDuration)
+        val totalTime = intent.total_duration.value?.duration
+        val spentTime = intent.spent_duration.value?.duration
+
+        if (totalTime == null || spentTime == null) throw IllegalStateException("Required slot values are missing")
 
         val responseText = if (totalTime < minimalTotalSearchTime) searchPeriodNotLongEnough else
-            determineNextAction(input, totalTime)
+            determineNextAction(spentTime, totalTime)
 
         return input.responseBuilder
                 .withSpeech(responseText)
@@ -49,16 +44,12 @@ class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchIn
                 .build()
     }
 
-    private fun determineNextAction(input: HandlerInput, totalTime: Duration): String {
-        val spentTime = input.intent.durationFromSlot(SpentDuration)
-
+    private fun determineNextAction(spentTime: Duration, totalTime: Duration): String {
         val threshold = optimalThreshold(totalTime)
 
         return if (spentTime > threshold) shouldLeapResponse else
             shouldLookResponse.format(daysLeft(threshold, spentTime))
     }
-
-    private fun Intent.durationFromSlot(slot: Slots): Duration = parse(requireSlot(slot).value).toDurationFrom(now())
 
     private fun daysLeft(threshold: Duration, spentTime: Duration) =
             threshold.minus(spentTime).days()

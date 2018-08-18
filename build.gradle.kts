@@ -27,33 +27,14 @@ configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-val generatedOutput = layout.buildDirectory.dir("generated")
-        .map { it.dir("source") }
-        .map { it.dir("kask") }
-        .map { it.dir("main") }
-
 tasks.withType<Kask> {
     packageName = "org.stvad.alexa.advice.model"
     modelPath.set(layout.projectDirectory.dir("models").file("en-US.json"))
-    outputDirectory.set(generatedOutput)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-
-    val kask: Kask by tasks
-    dependsOn(kask)
 }
-
-java.sourceSets["main"].withConvention(KotlinSourceSet::class) {
-    kotlin.srcDir(generatedOutput)
-}
-
-//
-//java.sourceSets {
-//    //todo put in plugin init?
-////    getByName("main").output.dir(mapOf("builtBy" to kask), generatedOutput)
-//}
 
 aws {
     profileName = "default"

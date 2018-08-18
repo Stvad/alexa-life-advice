@@ -4,7 +4,7 @@ includeBuild("../kask")
 
 pluginManagement {
     repositories {
-        maven { url = uri("../kask/build/repository") }
+        maven { url = uri("../kask-gradle-plugin/build/repository") }
         gradlePluginPortal()
         jcenter()
     }

@@ -2,13 +2,13 @@ package org.stvad.alexa.advice.handlers
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.model.Response
-import org.stvad.alexa.advice.util.Intents
+import org.stvad.alexa.advice.model.HelpIntent
 import org.stvad.alexa.advice.util.SkillName
 import org.stvad.alexa.advice.util.supportedAdviceAreas
 import org.stvad.kask.request.BasicIntentRequestHandler
 import java.util.Optional
 
-class HelpIntentHandler : BasicIntentRequestHandler(Intents.Help.alexaName) {
+class HelpIntentHandler : BasicIntentRequestHandler(HelpIntent.name) {
 
     override fun handleSafely(input: HandlerInput): Optional<Response> {
         val speechText = "I can give you advice based on insights from computer science. " +

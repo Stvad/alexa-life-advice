@@ -2,9 +2,9 @@ package org.stvad.alexa.advice.handlers
 
 import com.amazon.ask.model.LaunchRequest
 import com.amazon.ask.model.SessionEndedRequest
-import org.stvad.alexa.advice.util.Intents.Cancel
-import org.stvad.alexa.advice.util.Intents.Fallback
-import org.stvad.alexa.advice.util.Intents.Stop
+import org.stvad.alexa.advice.model.CancelIntent
+import org.stvad.alexa.advice.model.FallbackIntent
+import org.stvad.alexa.advice.model.StopIntent
 import org.stvad.alexa.advice.util.SkillName
 import org.stvad.kask.request.handle
 
@@ -25,11 +25,11 @@ val basicHandlers = listOf(
                     .withReprompt(welcomeReprompt)
                     .build()
         },
-        handle(Cancel.alexaName, Stop.alexaName) {
+        handle(CancelIntent, StopIntent) {
             val speechText = "Thank you for using Life Advice skill. Goodbye"
             it.responseBuilder.withSpeech(speechText).withSimpleCard(SkillName, speechText).build()
         },
-        handle(Fallback.alexaName) {
+        handle(FallbackIntent) {
             val speechText = "Sorry, I don't know that. You can try saying help!"
             it.responseBuilder
                     .withSpeech(speechText)

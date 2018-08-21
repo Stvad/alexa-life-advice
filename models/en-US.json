@@ -21,8 +21,16 @@
         },
         {
           "name": "HelpApartmentSearchIntent",
-          "slots": [],
+          "slots": [
+            {
+              "name": "city",
+              "type": "AMAZON.EUROPE_CITY"
+            }
+          ],
           "samples": [
+            "I'm settling in {city} and I need to find an apartment",
+            "looking for a house in {city}",
+            "I want to find an apartment in {city}",
             "I need help with selecting the home to rent",
             "i need help with finding the apartment",
             "apartment search strategy",

@@ -10,7 +10,7 @@ import java.util.Optional
 
 class HelpIntentHandler : BasicIntentRequestHandler(HelpIntent.name) {
 
-    override fun handleSafely(input: HandlerInput): Optional<Response> {
+    override fun handle(input: HandlerInput): Optional<Response> {
         val speechText = "I can give you advice based on insights from computer science. " +
                 "I'm currently qualified to talk about following topics: ${supportedAdviceAreas.joinToString()}"
         return input.responseBuilder

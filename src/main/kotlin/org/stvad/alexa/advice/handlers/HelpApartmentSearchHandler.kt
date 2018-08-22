@@ -13,7 +13,7 @@ class HelpApartmentSearchHandler : BasicIntentRequestHandler(HelpApartmentSearch
                 "the amount of time you are willing to spend searching, and how long have you been searching already."
     }
 
-    override fun handleSafely(input: HandlerInput): Optional<Response> =
+    override fun handle(input: HandlerInput): Optional<Response> =
             input.responseBuilder
                     .withSpeech(requirementsText)
                     .withSimpleCard(ApartmentSearchTitle, requirementsText)

@@ -27,7 +27,7 @@ class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchIn
         """.trimMargin()
     }
 
-    override fun handleSafely(input: HandlerInput, intent: ApartmentSearchInformationIntent): Optional<Response> {
+    override fun handle(input: HandlerInput, intent: ApartmentSearchInformationIntent): Optional<Response> {
         if (!input.dialogState.isCompleted) return input.delegateDialog() //todo
 
         val totalTime = intent.total_duration.value?.duration

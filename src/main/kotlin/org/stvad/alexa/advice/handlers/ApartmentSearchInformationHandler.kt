@@ -10,6 +10,7 @@ import org.stvad.alexa.advice.util.ApartmentSearchTitle
 import org.stvad.algorithm.optimalThreshold
 import org.stvad.kask.duration
 import org.stvad.kask.request.IntentRequestHandler
+import org.stvad.kask.request.respond
 import java.util.Optional
 
 class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchInformationIntent>(ApartmentSearchInformationIntent) {
@@ -38,10 +39,10 @@ class ApartmentSearchInformationHandler : IntentRequestHandler<ApartmentSearchIn
         val responseText = if (totalTime < minimalTotalSearchTime) searchPeriodNotLongEnough else
             determineNextAction(spentTime, totalTime)
 
-        return input.responseBuilder
-                .withSpeech(responseText)
-                .withSimpleCard(ApartmentSearchTitle, responseText)
-                .build()
+        return input.respond {
+            withSpeech(responseText)
+            withSimpleCard(ApartmentSearchTitle, responseText)
+        }
     }
 
     private fun determineNextAction(spentTime: Duration, totalTime: Duration): String {

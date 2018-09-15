@@ -5,6 +5,7 @@ import com.amazon.ask.model.Response
 import org.stvad.alexa.advice.model.HelpApartmentSearchIntent
 import org.stvad.alexa.advice.util.ApartmentSearchTitle
 import org.stvad.kask.request.BasicIntentRequestHandler
+import org.stvad.kask.request.respond
 import java.util.Optional
 
 class HelpApartmentSearchHandler : BasicIntentRequestHandler(HelpApartmentSearchIntent.name) {
@@ -14,9 +15,9 @@ class HelpApartmentSearchHandler : BasicIntentRequestHandler(HelpApartmentSearch
     }
 
     override fun handle(input: HandlerInput): Optional<Response> =
-            input.responseBuilder
-                    .withSpeech(requirementsText)
-                    .withSimpleCard(ApartmentSearchTitle, requirementsText)
-                    .withReprompt("Please tell me how long do you plan to spend looking for the apartment.")
-                    .build()
+            input.respond {
+                withSpeech(requirementsText)
+                withSimpleCard(ApartmentSearchTitle, requirementsText)
+                withReprompt("Please tell me how long do you plan to spend looking for the apartment.")
+            }
 }

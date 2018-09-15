@@ -6,7 +6,7 @@ import org.stvad.alexa.advice.model.CancelIntent
 import org.stvad.alexa.advice.model.FallbackIntent
 import org.stvad.alexa.advice.model.StopIntent
 import org.stvad.alexa.advice.util.SkillName
-import org.stvad.kask.request.handle
+import org.stvad.kask.request.respond
 
 val welcomeReprompt = """What area of your life do you need an advice about?
     | Currently I can only help you with the apartment search, but I'm constantly learning new things.""".trimMargin()
@@ -18,24 +18,21 @@ val welcomeSpeech = """Welcome to the Alexa Life Advice Skill. This skill is des
         welcomeReprompt
 
 val basicHandlers = listOf(
-        handle(LaunchRequest::class) {
-            it.responseBuilder
-                    .withSpeech(welcomeSpeech)
-                    .withSimpleCard(SkillName, welcomeSpeech)
-                    .withReprompt(welcomeReprompt)
-                    .build()
+        respond(LaunchRequest::class) {
+            withSpeech(welcomeSpeech)
+            withSimpleCard(SkillName, welcomeSpeech)
+            withReprompt(welcomeReprompt)
         },
-        handle(CancelIntent, StopIntent) {
+        respond(CancelIntent, StopIntent) {
             val speechText = "Thank you for using Life Advice skill. Goodbye"
-            it.responseBuilder.withSpeech(speechText).withSimpleCard(SkillName, speechText).build()
+            withSpeech(speechText)
+            withSimpleCard(SkillName, speechText)
         },
-        handle(FallbackIntent) {
+        respond(FallbackIntent) {
             val speechText = "Sorry, I don't know that. You can try saying help!"
-            it.responseBuilder
-                    .withSpeech(speechText)
-                    .withSimpleCard(SkillName, speechText)
-                    .withReprompt(speechText)
-                    .build()
+            withSpeech(speechText)
+            withSimpleCard(SkillName, speechText)
+            withReprompt(speechText)
         },
-        handle(SessionEndedRequest::class) { it.responseBuilder.build() } // any cleanup logic goes here
+        respond(SessionEndedRequest::class) { } // any cleanup logic goes here
 )

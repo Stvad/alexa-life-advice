@@ -1,6 +1,10 @@
 rootProject.name = "alexa_life_adviser"
 
-includeBuild("../kask")
+includeBuild("../kask") {
+    dependencySubstitution {
+        substitute(module("com.github.Stvad:kask")).with(project(":"))
+    }
+}
 
 pluginManagement {
     repositories {

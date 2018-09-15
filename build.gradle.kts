@@ -10,7 +10,7 @@ plugins {
     maven
     war
 
-    kotlin("jvm") version "1.2.60"
+    kotlin("jvm") version "1.2.70"
 
     id("jp.classmethod.aws.lambda") version "0.30"
     id("org.stvad.kask") version "0.1.0"
@@ -27,19 +27,18 @@ configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 tasks.withType<Kask> {
     packageName = "org.stvad.alexa.advice.model"
     modelPath.set(layout.projectDirectory.dir("models").file("en-US.json"))
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
 val test by tasks.getting(Test::class) {
     useJUnitPlatform { }
 }
-
 
 aws {
     profileName = "default"
@@ -47,9 +46,6 @@ aws {
 }
 
 val buildLambdaArchive by tasks.creating(Zip::class) {
-    val compileJava: JavaCompile by tasks
-    from(compileJava)
-
     val compileKotlin: KotlinCompile by tasks
     from(compileKotlin)
 
@@ -57,7 +53,7 @@ val buildLambdaArchive by tasks.creating(Zip::class) {
     from(processResources)
 
     into("lib") {
-        from(configurations.compileClasspath)
+        from(configurations.runtimeClasspath)
     }
 }
 
@@ -72,12 +68,14 @@ tasks.create<AWSLambdaMigrateFunctionTask>("deployLambda") {
 
 repositories {
     jcenter()
+    maven(url = "https://jitpack.io")
 }
 
 dependencies {
     compile("com.amazon.alexa", "ask-sdk", "2.3.5")
     compile("org.jetbrains.kotlin", "kotlin-stdlib", "1.2.60")
     compile("com.github.debop:koda-time:1.2.1")
+    implementation("com.github.Stvad:kask:-SNAPSHOT")
 
     compile("javax.servlet", "javax.servlet-api", "3.0.1")
 

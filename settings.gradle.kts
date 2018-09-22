@@ -11,5 +11,6 @@ pluginManagement {
         maven { url = uri("../kask-gradle-plugin/build/repository") }
         gradlePluginPortal()
         jcenter()
+        maven(url = "https://jitpack.io")
     }
 }

@@ -13,7 +13,7 @@ plugins {
     kotlin("jvm") version "1.2.70"
 
     id("jp.classmethod.aws.lambda") version "0.30"
-    id("org.stvad.kask") version "0.1.0"
+    id("org.stvad.kask") version "0.1.3"
 }
 
 group = "org.stvad"
@@ -72,16 +72,10 @@ repositories {
 }
 
 dependencies {
-    compile("com.amazon.alexa", "ask-sdk", "2.3.5")
-    compile("org.jetbrains.kotlin", "kotlin-stdlib", "1.2.60")
+    compile(kotlin("stdlib-jdk8"))
     compile("com.github.debop:koda-time:1.2.1")
-    implementation("com.github.Stvad:kask:-SNAPSHOT")
 
     compile("javax.servlet", "javax.servlet-api", "3.0.1")
 
     testCompile("io.kotlintest:kotlintest-runner-junit5:3.1.9")
-}
-
-dependencies {
-    implementation("org.stvad", "kask", "0.1.0")
 }

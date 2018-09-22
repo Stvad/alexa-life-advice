@@ -34,5 +34,5 @@ val basicHandlers = listOf(
             withSimpleCard(SkillName, speechText)
             withReprompt(speechText)
         },
-        respond(SessionEndedRequest::class) { } // any cleanup logic goes here
+        respond(SessionEndedRequest::class) { }
 )

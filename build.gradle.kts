@@ -76,6 +76,7 @@ dependencies {
     compile("com.github.debop:koda-time:1.2.1")
 
     compile("javax.servlet", "javax.servlet-api", "3.0.1")
+    compile("com.amazon.alexa", "ask-sdk", "2.6.+")
 
     testCompile("io.kotlintest:kotlintest-runner-junit5:3.1.9")
 }

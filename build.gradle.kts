@@ -13,7 +13,7 @@ plugins {
     kotlin("jvm") version "1.2.70"
 
     id("jp.classmethod.aws.lambda") version "0.30"
-    id("org.stvad.kask") version "0.1.3"
+    id("org.stvad.kask") version "0.1.5"
 }
 
 group = "org.stvad"
